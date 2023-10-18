@@ -9,53 +9,69 @@ void cmc() {
 #endif
 }
 
-using ll = long long;
+int w[100];
+int v[100];
 
-// dp[val] = lowest weight (<= W) with which value "val" can be achieved
-// base case --> dp[0] = 0
-// transitions --> dp[val + v[i]] = min(dp[val + v[i]], dp[val] + w[i])
-// finnal answer --> max i with valid answer
+long long dp[100][100001];
+// dp[index][val] --> minimum weight when we consider items uptill ith index and total value = val
+
+// base case --> dp[0][v[0]] = w[0]
+//               dp[i][0] = 0          for all i
+
+// transitions --> dp[i][j] = dp[i - 1][j]                                   not pick
+//                 dp[i][j] = min(dp[i][j], w[i] + dp[i - 1][j - v[i]])      pick
+
+// final answer --> dp[n - 1][val] with max. val
 
 void solve()
 {
-    int N, W;
-    cin >> N >> W;
-    vector<int> w(N), v(N);
-    for (int i = 0; i < N; i++) cin >> w[i] >> v[i];
+    int n, W;
+    cin >> n >> W;
 
-    vector<ll> dp(1e5 + 7, 1e18);
-    dp[0] = 0;
-
-    for (int idx = 0; idx < N; idx++)
-    {
-        for (int val = 1e5; val >= 0; val--)
-        {
-            if (dp[val] + w[idx] <= W)
-            {
-                dp[val + v[idx]] = min(dp[val + v[idx]], dp[val] + w[idx]);
-            }
+    for (int i = 0; i < 100; i++) {
+        for (int j = 0; j <= 100000; j++) {
+            dp[i][j] = 1e18;
         }
     }
 
-    for (int i = 1e5; i >= 0; i--)
+    for (int i = 0; i < n; i++) {
+        cin >> w[i] >> v[i];
+    }
+
+    // base cases
+    dp[0][v[0]] = w[0];
+    for (int i = 0; i < n; i++) dp[i][0] = 0;
+
+    for (int i = 1; i < n; i++)
     {
-        if (dp[i] != 1e18)
+        for (int j = 1; j <= 100000; j++)
         {
-            cout << i << endl;
+            // not pick current item
+            dp[i][j] = dp[i - 1][j];
+
+            // pick current item
+            if (j - v[i] >= 0)
+                dp[i][j] = min(dp[i][j], w[i] + dp[i - 1][j - v[i]]);
+        }
+    }
+
+    long long ans;
+    for (int val = 100000; val >= 0; val--)
+    {
+        if (dp[n - 1][val] <= W)
+        {
+            ans = val;
             break;
         }
     }
+    cout << ans << endl;
 }
 
 int main() {
     cmc();
     ios_base::sync_with_stdio(0); cin.tie(0);
 
-    int t = 1;
-    // cin >> t;
-    while (t--) {
-        solve();
-    }
+    solve();
 
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << "\n";
     return 0;
