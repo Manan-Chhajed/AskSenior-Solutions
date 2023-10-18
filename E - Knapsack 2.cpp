@@ -26,7 +26,7 @@ void solve()
     vector<ll> dp(1e5 + 7, 1e18);
     dp[0] = 0;
 
-    for (int idx = 0; idx < n; idx++)
+    for (int idx = 0; idx < N; idx++)
     {
         for (int val = 1e5; val >= 0; val--)
         {
