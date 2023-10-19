@@ -1,14 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void cmc() {
-#ifndef ONLINE_JUDGE
-    freopen("in.txt", "r", stdin);
-    freopen("out.txt", "w", stdout);
-    freopen("err.txt", "w", stderr);
-#endif
-}
-
 // DP STATE
 // dp[i][j] --> can you reach the coordinate j after i jumps
 // 1 if yes, and 0 if no
@@ -56,11 +48,7 @@ void solve()
 }
 
 int main() {
-    cmc();
     ios_base::sync_with_stdio(0); cin.tie(0);
-
     solve();
-
-    cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << "\n";
     return 0;
 }
