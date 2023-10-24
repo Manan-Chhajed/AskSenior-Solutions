@@ -4,11 +4,11 @@ using namespace std;
 using ll = long long;
 
 /*
-    dp[x][t] --> max. sum of size of snuke catched such that, takahashi was at coordinate x at time t
+    dp[x][t] --> max. sum of size of snukes catched such that, takahashi was at coordinate x at time t
 
     transitions --> was already present here dp[x][t - 1]
-                    moved from i - 1 to i    dp[x - 1][t - 1]
-                    moved from i + 1 to i    dp[x + 1][t - 1]
+                    moved from x - 1 to x    dp[x - 1][t - 1]
+                    moved from x + 1 to x    dp[x + 1][t - 1]
 
     base case --> since he is at position 0 at time 0, takahashi can't reach positions 1, 2, 3, 4 at t = 0
                   dp[1][0] = -inf, dp[2][0] = -inf, dp[3][0] = -inf, dp[4][0] = -inf
@@ -18,9 +18,9 @@ using ll = long long;
 */
 
 ll inf = 1e18;
-const int MAXT = 100001;
-ll dp[5][MAXT];
-ll pos[MAXT], sz[MAXT];
+const int MAXT = 100000;
+ll dp[5][MAXT + 1];
+ll pos[MAXT + 1], sz[MAXT + 1];
 
 void solve()
 {
@@ -45,10 +45,10 @@ void solve()
             // was already present here
             dp[x][t] = dp[x][t - 1];
 
-            // moved from i - 1 to i
+            // moved from x - 1 to x
             if (x - 1 >= 0)dp[x][t] = max(dp[x][t], dp[x - 1][t - 1]);
 
-            // moved from i + 1 to i
+            // moved from x + 1 to x
             if (x + 1 <= 4)dp[x][t] = max(dp[x][t], dp[x + 1][t - 1]);
         }
         dp[pos[t]][t] += sz[t];
