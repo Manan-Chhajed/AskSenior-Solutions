@@ -46,10 +46,10 @@ void solve()
             dp[x][t] = dp[x][t - 1];
 
             // moved from x - 1 to x
-            if (x - 1 >= 0)dp[x][t] = max(dp[x][t], dp[x - 1][t - 1]);
+            if (x - 1 >= 0) dp[x][t] = max(dp[x][t], dp[x - 1][t - 1]);
 
             // moved from x + 1 to x
-            if (x + 1 <= 4)dp[x][t] = max(dp[x][t], dp[x + 1][t - 1]);
+            if (x + 1 <= 4) dp[x][t] = max(dp[x][t], dp[x + 1][t - 1]);
         }
         dp[pos[t]][t] += sz[t];
     }
